@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FXPN Global Prop Challenge</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&family=Noto+Sans+Arabic:wght@400;700&display=swap');
+        
+        :root {
+            --primary: #0052FF;
+            --secondary: #FF0A39;
+            --dark: #0a0a0a;
+            --light: #ffffff;
+            --accent: #2a5298;
+            --success: #27ae60;
+            --danger: #e74c3c;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: var(--dark);
+            color: var(--light);
+            line-height: 1.6;
+            font-family: 'Roboto', 'Noto Sans Arabic', sans-serif;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect fill="%23161b25" width="100" height="100"/><path d="M0 0L100 100" stroke="%23232f3d" stroke-width="1"/></svg>');
+            background-attachment: fixed;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 4px solid var(--light);
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path d="M0,0 L20,20" stroke="%23ffffff" stroke-width="0.5" stroke-opacity="0.1"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .logo {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--light);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 25px;
+        }
+        
+        .lang-switch {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--light);
+            color: var(--primary);
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            z-index: 10;
+            transition: all 0.3s;
+            border: none;
+        }
+        
+        .lang-switch:hover {
+            background: var(--secondary);
+            color: var(--light);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        /* Countdown Styles */
+        .countdown-section {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px auto;
+            max-width: 800px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .countdown-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--light);
+            text-align: center;
+        }
+        
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .countdown-box {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 15px;
+            border-radius: 8px;
+            min-width: 80px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        .countdown-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--light);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .countdown-label {
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        
+        /* Participant Counter */
+        .participant-counter {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 400px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .counter-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--light);
+            margin-bottom: 5px;
+        }
+        
+        .counter-label {
+            font-size: 1rem;
+        }
+        
+        /* Button Styles */
+        .btn-register {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--light), #e0e0e0);
+            color: var(--primary);
+            font-weight: bold;
+            padding: 18px 40px;
+            border-radius: 50px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.4);
+            font-size: 1.1rem;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+        }
+        
+        .btn-register:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+        }
+        
+        .btn-register:active {
+            transform: translateY(1px);
+        }
+        
+        /* Section Styles */
+        section {
+            margin: 50px 0;
+            padding: 30px;
+            background: rgba(10, 10, 10, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 15px 15px 0 0;
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        h2 i {
+            font-size: 1.5rem;
+        }
+        
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        ul li {
+            background: rgba(255, 255, 255, 0.05);
+            margin-bottom: 12px;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            transition: all 0.3s;
+        }
+        
+        ul li:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+        
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        a:hover {
+            color: var(--secondary);
+            text-decoration: underline;
+        }
+        
+        /* Prizes Section Special Styling */
+        #prizes-list li {
+            background: linear-gradient(90deg, rgba(0, 82, 255, 0.1), rgba(255, 255, 255, 0.05));
+            border-left: 4px solid var(--success);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        #prizes-list li::before {
+            content: "🏆";
+            font-size: 1.5rem;
+        }
+        
+        #prizes-list li:nth-child(2)::before {
+            content: "🥈";
+        }
+        
+        #prizes-list li:nth-child(3)::before {
+            content: "🥉";
+        }
+        
+        /* Promotional Prizes Highlight */
+        .promo-prizes-box {
+            background: linear-gradient(135deg, var(--secondary), #ff3355);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(255, 10, 57, 0.5);
+        }
+        
+        .promo-prizes-box h3 {
+            color: var(--light);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+        
+        .promo-prizes-box p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+        
+        .promo-activities {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .promo-activity {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .promo-activity strong {
+            display: block;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+        
+        /* Footer Styles */
+        footer {
+            background: #111;
+            text-align: center;
+            padding: 30px 20px;
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-top: 50px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .socials {
+            margin-bottom: 15px;
+        }
+        
+        .socials a {
+            margin: 0 15px;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            header p {
+                font-size: 1rem;
+            }
+            
+            .countdown-box {
+                min-width: 60px;
+                padding: 10px;
+            }
+            
+            .countdown-value {
+                font-size: 1.5rem;
+            }
+            
+            section {
+                padding: 20px;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .countdown-container {
+                gap: 8px;
+            }
+            
+            .countdown-box {
+                min-width: 50px;
+                padding: 8px;
+            }
+            
+            .countdown-value {
+                font-size: 1.2rem;
+            }
+            
+            .countdown-label {
+                font-size: 0.7rem;
+            }
+            
+            .btn-register {
+                padding: 15px 25px;
+                font-size: 1rem;
+            }
+        }
+        
+        /* Animation for numbers */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .animate {
+            animation: pulse 0.5s ease-in-out;
+        }
+        
+        /* Decorative elements */
+        .trophy-icon {
+            position: absolute;
+            top: -30px;
+            right: 30px;
+            font-size: 5rem;
+            opacity: 0.1;
+            color: var(--primary);
+            z-index: 0;
+        }
+        
+        .medal-icon {
+            position: absolute;
+            bottom: -20px;
+            left: 30px;
+            font-size: 4rem;
+            opacity: 0.1;
+            color: var(--secondary);
+            z-index: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <button class="lang-switch" onclick="toggleLang()">فارسی / English</button>
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <h1 id="title">FXPN Global Prop Challenge</h1>
+            <p id="subtitle">Trade with a $100,000 demo account and win up to $200,000 prop account!</p>
+            
+            <!-- Countdown Timer -->
+            <div class="countdown-section">
+                <div class="countdown-title" id="countdown-title">Registration ends in:</div>
+                <div class="countdown-container">
+                    <div class="countdown-box">
+                        <div class="countdown-value" id="days">00</div>
+                        <div class="countdown-label">Days</div>
+                    </div>
+                    <div class="countdown-box">
+                        <div class="countdown-value" id="hours">00</div>
+                        <div class="countdown-label">Hours</div>
+                    </div>
+                    <div class="countdown-box">
+                        <div class="countdown-value" id="minutes">00</div>
+                        <div class="countdown-label">Minutes</div>
+                    </div>
+                    <div class="countdown-box">
+                        <div class="countdown-value" id="seconds">00</div>
+                        <div class="countdown-label">Seconds</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Participant Counter -->
+            <div class="participant-counter">
+                <div class="counter-value" id="participant-count">505</div>
+                <div class="counter-label" id="participant-label">Participants Registered</div>
+            </div>
+            
+            <a href="https://partners.fxpn.com/session/signup?refid=2013" target="_blank" class="btn-register" id="register-btn">REGISTER / ثبت‌نام</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <section>
+            <i class="trophy-icon fas fa-trophy"></i>
+            <i class="medal-icon fas fa-medal"></i>
+            <h2 id="dates-title"><i class="fas fa-calendar-alt"></i> 📅 Registration & Contest Dates</h2>
+            <ul id="dates-list">
+                <li>Registration: 22 November – 21 December 2025</li>
+                <li>Contest Period: 21 December 2025 – 1 January 2026</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2 id="rules-title"><i class="fas fa-gavel"></i> ⚖️ Rules</h2>
+            <ul id="rules-list">
+                <li>Each participant receives a single $100,000 demo account.</li>
+                <li>Maximum drawdown: 5% daily, 10% total.</li>
+                <li>Scalping & trading during economic news is allowed.</li>
+                <li>Automated bots are forbidden.</li>
+                <li>Participation is free.</li>
+                <li>One account per participant only.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2 id="promo-title"><i class="fas fa-bullhorn"></i> 📢 Mandatory Promotions</h2>
+            <ul id="promo-list">
+                <li>Follow FXPN on Instagram: <a href="https://www.instagram.com/fxpn_official?igsh=czlwbzI5ZGF0dnZu" target="_blank">FXPN Official</a>, <a href="https://www.instagram.com/fxpn.iran?igsh=cWw2eGI0Mm9mamw3" target="_blank">FXPN Iran</a></li>
+                <li>Follow FXPN on Telegram: <a href="https://t.me/FXPN_OFFICIAL" target="_blank">FXPN Official</a></li>
+                <li>Publish at least 1 post or story with FXPN tag.</li>
+                <li>Take a screenshot of the contest page and share as story or post in Instagram or WhatsApp.</li>
+                <li><strong>Tag your friends</strong> in posts and stories for bonus points!</li>
+                <li><strong>Daily stories</strong> on Instagram/WhatsApp increase your chances!</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2 id="prizes-title"><i class="fas fa-award"></i> 🎁 Prizes</h2>
+            <ul id="prizes-list">
+                <li>1st: $200,000</li>
+                <li>2nd: $100,000</li>
+                <li>3rd: $50,000</li>
+                <li>4th–10th: $25,000 each (7 winners)</li>
+                <li>11th–20th: $10,000 each (10 winners)</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2 id="daily-title"><i class="fas fa-calendar-day"></i> 🎲 Daily Activity Prizes</h2>
+            <p id="daily-intro" style="font-size: 1.1rem; margin-bottom: 20px; line-height: 1.8;">
+                Participants who actively promote the contest through daily activities will be entered into a special raffle!
+            </p>
+            
+            <div class="promo-prizes-box">
+                <h3>🎁 Special Promotional Rewards</h3>
+                <p>By posting daily content (posts, stories, tagging friends), you can win additional prizes!</p>
+                
+                <div class="promo-activities">
+                    <div class="promo-activity">
+                        <strong>📸 Instagram Post</strong>
+                        <span>Post about the contest daily</span>
+                    </div>
+                    <div class="promo-activity">
+                        <strong>📱 Daily Stories</strong>
+                        <span>Share contest stories</span>
+                    </div>
+                    <div class="promo-activity">
+                        <strong>👥 Tag Friends</strong>
+                        <span>Mention & invite friends</span>
+                    </div>
+                </div>
+                
+                <h3 style="margin-top: 30px; font-size: 1.5rem;">🏆 Top 3 Most Active Promoters Win:</h3>
+                <ul id="daily-list" style="list-style: none; padding: 0;">
+                    <li style="font-size: 1.3rem; margin: 10px 0;">🥇 1st: $50,000</li>
+                    <li style="font-size: 1.3rem; margin: 10px 0;">🥈 2nd: $25,000</li>
+                    <li style="font-size: 1.3rem; margin: 10px 0;">🥉 3rd: $15,000</li>
+                </ul>
+            </div>
+        </section>
+
+        <section style="text-align: center;">
+            <a href="https://partners.fxpn.com/session/signup?refid=2013" target="_blank" class="btn-register" id="register-btn-bottom">REGISTER NOW / ثبت‌نام</a>
+        </section>
+    </div>
+
+    <footer>
+        <div class="socials">
+            <a href="https://www.instagram.com/fxpn_official?igsh=czlwbzI5ZGF0dnZu" target="_blank"><i class="fab fa-instagram"></i> FXPN Official</a>
+            <a href="https://www.instagram.com/fxpn.iran?igsh=cWw2eGI0Mm9mamw3" target="_blank"><i class="fab fa-instagram"></i> FXPN Iran</a>
+            <a href="https://t.me/FXPN_OFFICIAL" target="_blank"><i class="fab fa-telegram"></i> Telegram</a>
+        </div>
+        © 2025 FXPN. All rights reserved.
+    </footer>
+
+    <script>
+        // متن‌ها فارسی و انگلیسی
+        const texts = {
+            en: {
+                title: "FXPN Global Prop Challenge",
+                subtitle: "Trade with a $100,000 demo account and win up to $200,000 prop account!",
+                register: "REGISTER / ثبت‌نام",
+                datesTitle: "📅 Registration & Contest Dates",
+                datesList: [
+                    "Registration: 22 November – 21 December 2025",
+                    "Contest Period: 21 December 2025 – 1 January 2026"
+                ],
+                rulesTitle: "⚖️ Rules",
+                rulesList: [
+                    "Each participant receives a single $100,000 demo account.",
+                    "Maximum drawdown: 5% daily, 10% total.",
+                    "Scalping & trading during economic news is allowed.",
+                    "Automated bots are forbidden.",
+                    "Participation is free.",
+                    "One account per participant only."
+                ],
+                promoTitle: "📢 Mandatory Promotions",
+                promoList: [
+                    'Follow FXPN on Instagram: <a href="https://www.instagram.com/fxpn_official?igsh=czlwbzI5ZGF0dnZu" target="_blank">FXPN Official</a>, <a href="https://www.instagram.com/fxpn.iran?igsh=cWw2eGI0Mm9mamw3" target="_blank">FXPN Iran</a>',
+                    'Follow FXPN on Telegram: <a href="https://t.me/FXPN_OFFICIAL" target="_blank">FXPN Official</a>',
+                    "Publish at least 1 post or story with FXPN tag.",
+                    "Take a screenshot of the contest page and share as story or post in Instagram or WhatsApp.",
+                    "<strong>Tag your friends</strong> in posts and stories for bonus points!",
+                    "<strong>Daily stories</strong> on Instagram/WhatsApp increase your chances!"
+                ],
+                prizesTitle: "🎁 Prizes",
+                prizesList: [
+                    "1st: $200,000",
+                    "2nd: $100,000",
+                    "3rd: $50,000",
+                    "4th–10th: $25,000 each (7 winners)",
+                    "11th–20th: $10,000 each (10 winners)"
+                ],
+                dailyTitle: "🎲 Daily Activity Prizes",
+                dailyIntro: "Participants who actively promote the contest through daily activities will be entered into a special raffle!",
+                dailyList: [
+                    "🥇 1st: $50,000",
+                    "🥈 2nd: $25,000",
+                    "🥉 3rd: $15,000"
+                ],
+                countdownTitle: "Registration ends in:",
+                participantLabel: "Participants Registered"
+            },
+            fa: {
+                title: "مسابقه جهانی پراپ FXPN",
+                subtitle: "با حساب دمو ۱۰۰,۰۰۰ دلاری رقابت کنید و شانس برنده شدن حساب پراپ تا ۲۰۰,۰۰۰ دلار را بدست آورید!",
+                register: "ثبت‌نام / REGISTER",
+                datesTitle: "📅 زمان ثبت‌نام و دوره مسابقه",
+                datesList: [
+                    "ثبت‌نام: ۲۲ نوامبر تا ۲۱ دسامبر ۲۰۲۵",
+                    "دوره مسابقه: ۲۱ دسامبر ۲۰۲۵ تا ۱ ژانویه ۲۰۲۶"
+                ],
+                rulesTitle: "⚖️ قوانین مسابقه",
+                rulesList: [
+                    "هر شرکت‌کننده فقط یک حساب دمو ۱۰۰,۰۰۰ دلاری دریافت می‌کند.",
+                    "حداکثر دراداون: ۵٪ روزانه، ۱۰٪ کلی.",
+                    "اسکالپینگ و معاملات در زمان اخبار اقتصادی مجاز است.",
+                    "استفاده از ربات‌های معاملاتی ممنوع است.",
+                    "شرکت در مسابقه رایگان است.",
+                    "هر فرد فقط یک حساب می‌تواند ثبت کند."
+                ],
+                promoTitle: "📢 فعالیت‌های تبلیغاتی اجباری",
+                promoList: [
+                    'عضویت در اینستاگرام: <a href="https://www.instagram.com/fxpn_official?igsh=czlwbzI5ZGF0dnZu" target="_blank">FXPN Official</a>, <a href="https://www.instagram.com/fxpn.iran?igsh=cWw2eGI0Mm9mamw3" target="_blank">FXPN Iran</a>',
+                    'عضویت در تلگرام: <a href="https://t.me/FXPN_OFFICIAL" target="_blank">FXPN Official</a>',
+                    "انتشار حداقل یک پست یا استوری با تگ FXPN.",
+                    "گرفتن اسکرین شات از صفحه مسابقه و انتشار آن در استوری یا پست اینستاگرام/واتساپ.",
+                    "<strong>تگ کردن دوستان</strong> در پست‌ها و استوری‌ها امتیاز بیشتری می‌دهد!",
+                    "<strong>استوری‌های روزانه</strong> در اینستاگرام/واتساپ شانس شما را افزایش می‌دهد!"
+                ],
+                prizesTitle: "🎁 جوایز مسابقه",
+                prizesList: [
+                    "نفر اول: ۲۰۰,۰۰۰ دلار",
+                    "نفر دوم: ۱۰۰,۰۰۰ دلار",
+                    "نفر سوم: ۵۰,۰۰۰ دلار",
+                    "چهارم تا دهم: هر کدام ۲۵,۰۰۰ دلار (۷ نفر)",
+                    "یازدهم تا بیستم: هر کدام ۱۰,۰۰۰ دلار (۱۰ نفر)"
+                ],
+                dailyTitle: "🎲 جوایز فعالیت‌های روزانه",
+                dailyIntro: "شرکت‌کنندگانی که به صورت روزانه مسابقه را تبلیغ می‌کنند، وارد قرعه‌کشی ویژه می‌شوند!",
+                dailyList: [
+                    "🥇 نفر اول: ۵۰,۰۰۰ دلار",
+                    "🥈 نفر دوم: ۲۵,۰۰۰ دلار",
+                    "🥉 نفر سوم: ۱۵,۰۰۰ دلار"
+                ],
+                countdownTitle: "زمان باقیمانده تا پایان ثبت‌نام:",
+                participantLabel: "شرکت‌کننده ثبت‌نام کرده‌اند"
+            }
+        };
+
+        // تابع تغییر زبان
+        function setLang(lang) {
+            document.getElementById('title').innerText = texts[lang].title;
+            document.getElementById('subtitle').innerText = texts[lang].subtitle;
+            document.getElementById('register-btn').innerText = texts[lang].register;
+            document.getElementById('register-btn-bottom').innerText = texts[lang].register;
+            document.getElementById('dates-title').innerHTML = '<i class="fas fa-calendar-alt"></i> ' + texts[lang].datesTitle;
+            document.getElementById('dates-list').innerHTML = texts[lang].datesList.map(item => "<li>" + item + "</li>").join('');
+            document.getElementById('rules-title').innerHTML = '<i class="fas fa-gavel"></i> ' + texts[lang].rulesTitle;
+            document.getElementById('rules-list').innerHTML = texts[lang].rulesList.map(item => "<li>" + item + "</li>").join('');
+            document.getElementById('promo-title').innerHTML = '<i class="fas fa-bullhorn"></i> ' + texts[lang].promoTitle;
+            document.getElementById('promo-list').innerHTML = texts[lang].promoList.map(item => "<li>" + item + "</li>").join('');
+            document.getElementById('prizes-title').innerHTML = '<i class="fas fa-award"></i> ' + texts[lang].prizesTitle;
+            document.getElementById('prizes-list').innerHTML = texts[lang].prizesList.map(item => "<li>" + item + "</li>").join('');
+            document.getElementById('daily-title').innerHTML = '<i class="fas fa-calendar-day"></i> ' + texts[lang].dailyTitle;
+            document.getElementById('daily-intro').innerText = texts[lang].dailyIntro;
+            document.getElementById('daily-list').innerHTML = texts[lang].dailyList.map(item => "<li style='font-size: 1.3rem; margin: 10px 0;'>" + item + "</li>").join('');
+            document.getElementById('countdown-title').innerText = texts[lang].countdownTitle;
+            document.getElementById('participant-label').innerText = texts[lang].participantLabel;
+        }
+
+        // تشخیص خودکار زبان با IP (ایران = fa، غیر ایران = en) - ساده با مرورگر
+        let userLang = navigator.language || navigator.userLanguage;
+        if (userLang.startsWith("fa")) setLang('fa');
+        else setLang('en');
+
+        // تابع سوئیچ زبان دستی
+        function toggleLang() {
+            let current = document.getElementById('title').innerText;
+            if (current === texts.fa.title) setLang('en');
+            else setLang('fa');
+        }
+
+        // شمارنده معکوس
+        function updateCountdown() {
+            const registrationEnd = new Date('December 21, 2025 23:59:59').getTime();
+            const now = new Date().getTime();
+            const distance = registrationEnd - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = days.toString().padStart(2, '0');
+            document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
+            document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
+            document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
+
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                document.getElementById("countdown-title").innerText = "Registration has ended!";
+                document.getElementById("days").innerText = "00";
+                document.getElementById("hours").innerText = "00";
+                document.getElementById("minutes").innerText = "00";
+                document.getElementById("seconds").innerText = "00";
+            }
+        }
+
+        // شمارنده شرکت‌کنندگان
+        let participantCount = 505;
+
+        function incrementCounter() {
+            participantCount++;
+            const counterElement = document.getElementById('participant-count');
+            counterElement.innerText = participantCount;
+            counterElement.classList.add('animate');
+            setTimeout(() => {
+                counterElement.classList.remove('animate');
+            }, 500);
+            
+            // ذخیره در localStorage برای حفظ وضعیت
+            localStorage.setItem('participantCount', participantCount);
+        }
+
+        // مقداردهی اولیه شمارنده از localStorage در صورت وجود
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedCount = localStorage.getItem('participantCount');
+            if (savedCount) {
+                participantCount = parseInt(savedCount);
+                document.getElementById('participant-count').innerText = participantCount;
+            }
+            
+            // بروزرسانی اولیه شمارنده
+            updateCountdown();
+            
+            // اضافه کردن event listener به دکمه‌های ثبت‌نام
+            document.getElementById('register-btn').addEventListener('click', incrementCounter);
+            document.getElementById('register-btn-bottom').addEventListener('click', incrementCounter);
+        });
+
+        // به‌روزرسانی شمارنده هر ثانیه
+        const countdownInterval = setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html
